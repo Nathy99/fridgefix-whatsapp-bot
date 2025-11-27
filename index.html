@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FridgeFix - Appliance Repair Service</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: white;
+      padding: 20px;
+      border-radius: 10px 10px 0 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    header h1 {
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+    }
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    .chat-container {
+      background-color: white;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .bot-message {
+      align-self: flex-start;
+      background-color: #e9ecef;
+      border-bottom-left-radius: 5px;
+      color: #333;
+    }
+    .user-message {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+    .options-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .option-btn {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover {
+      background-color: #e9ecef;
+      transform: translateY(-2px);
+    }
+    .input-container {
+      display: flex;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-top: 1px solid #dee2e6;
+    }
+    .user-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #ced4da;
+      border-radius: 25px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .user-input:focus {
+      border-color: #3498db;
+    }
+    .send-btn {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      padding: 0 20px;
+      margin-left: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .send-btn:hover {
+      background: linear-gradient(135deg, #2980b9, #3498db);
+      transform: scale(1.05);
+    }
+    .hidden {
+      display: none;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      font-size: 0.95rem;
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #27ae60, #2ecc71);
+      transform: translateY(-2px);
+    }
+    .confirmation {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 10px;
+      }
+      .message {
+        max-width: 90%;
+      }
+      .chat-container {
+        height: 450px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>FridgeFix</h1>
+      <p>24/7 Appliance Repair Service</p>
+    </header>
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <!-- Messages will be added here dynamically -->
+      </div>
+      <div class="input-container">
+        <input type="text" class="user-input" id="userInput" placeholder="Type your message here...">
+        <button class="send-btn" id="sendBtn">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const chatMessages = document.getElementById('chatMessages');
+      const userInput = document.getElementById('userInput');
+      const sendBtn = document.getElementById('sendBtn');
+
+      // Conversation state
+      let conversationState = {
+        step: 0,
+        customerInfo: {
+          name: '',
+          phone: '',
+          email: '',
+          address: '',
+          issue: '',
+          applianceType: 'Refrigerator',
+          preferredTime: ''
+        }
+      };
+
+      // Initial bot message
+      addBotMessage("Hello! I'm FridgeFix Assistant. I'm here to help you schedule a refrigerator repair service. Could you please tell me your name?");
+
+      // Send message on button click
+      sendBtn.addEventListener('click', handleUserInput);
+
+      // Send message on Enter key
+      userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          handleUserInput();
+        }
+      });
+
+      function handleUserInput() {
+        const message = userInput.value.trim();
+        if (message) {
+          addUserMessage(message);
+          userInput.value = '';
+          // Process user input based on current conversation step
+          processUserInput(message);
+        }
+      }
+
+      function addBotMessage(text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', 'bot-message');
+        messageDiv.textContent = text;
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+      }
+
+      function addUserMessage(text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', 'user-message');
+        messageDiv.textContent = text;
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+      }
+
+      function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      function processUserInput(input) {
+        switch(conversationState.step) {
+          case 0:
+            // Get name
+            conversationState.customerInfo.name = input;
+            conversationState.step = 1;
+            setTimeout(() => {
+              addBotMessage(`Nice to meet you, ${input}! What's the best phone number to reach you?`);
+            }, 1000);
+            break;
+
+          case 1:
+            // Get phone number
+            conversationState.customerInfo.phone = input;
+            conversationState.step = 2;
+            setTimeout(() => {
+              addBotMessage("Great! And what's your email address?");
+            }, 1000);
+            break;
+
+          case 2:
+            // Get email
+            conversationState.customerInfo.email = input;
+            conversationState.step = 3;
+            setTimeout(() => {
+              addBotMessage("Thanks! Now, could you please describe the issue with your refrigerator?");
+            }, 1000);
+            break;
+
+          case 3:
+            // Get issue description
+            conversationState.customerInfo.issue = input;
+            conversationState.step = 4;
+            setTimeout(() => {
+              addBotMessage("I understand. Now, please provide your full address so we can send a technician to your location.");
+            }, 1000);
+            break;
+
+          case 4:
+            // Get address
+            conversationState.customerInfo.address = input;
+            conversationState.step = 5;
+            setTimeout(() => {
+              addBotMessage("Perfect! When would be a good time for our technician to visit?");
+              addBotMessage("Please select your preferred time:");
+              // Create time options
+              const optionsDiv = document.createElement('div');
+              optionsDiv.classList.add('options-container');
+              const times = ['Morning (9 AM - 12 PM)', 'Afternoon (12 PM - 4 PM)', 'Evening (4 PM - 7 PM)', 'ASAP'];
+              times.forEach(time => {
+                const btn = document.createElement('button');
+                btn.classList.add('option-btn');
+                btn.textContent = time;
+                btn.addEventListener('click', function() {
+                  conversationState.customerInfo.preferredTime = time;
+                  addUserMessage(time);
+                  processUserInput(time);
+                });
+                optionsDiv.appendChild(btn);
+              });
+              chatMessages.appendChild(optionsDiv);
+              scrollToBottom();
+            }, 1000);
+            break;
+
+          case 5:
+            // Get preferred time and show confirmation
+            conversationState.customerInfo.preferredTime = input;
+            conversationState.step = 6;
+            setTimeout(() => {
+              addBotMessage("Thank you! Here's a summary of your service request:");
+              const confirmationDiv = document.createElement('div');
+              confirmationDiv.classList.add('confirmation');
+              const info = conversationState.customerInfo;
+              confirmationDiv.innerHTML = `<p><strong>Name:</strong> ${info.name}</p><p><strong>Phone:</strong> ${info.phone}</p><p><strong>Email:</strong> ${info.email}</p><p><strong>Address:</strong> ${info.address}</p><p><strong>Issue:</strong> ${info.issue}</p><p><strong>Preferred Time:</strong> ${info.preferredTime}</p><p><strong>Status:</strong> Service request submitted successfully!</p>`;
+              chatMessages.appendChild(confirmationDiv);
+              setTimeout(() => {
+                addBotMessage("Our technician will contact you within 30 minutes to confirm the appointment. Thank you for choosing FridgeFix!");
+              }, 1500);
+            }, 1000);
+            break;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
