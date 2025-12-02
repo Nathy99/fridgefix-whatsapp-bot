@@ -155,7 +155,23 @@ def process_user_input(user_id, user_message):
                 response += "📧 support@fridgefix.co.za\n"
                 response += "📞 +27 (0)11 123 4567\n\n"
                 response += "We apologize for the inconvenience!"
-                state['step'] = STEPS['PHONE_CHECK']  # Reset
+                # Reset conversation on max attempts
+                conversation_states[user_id] = {
+                    'step': STEPS['PHONE_CHECK'],
+                    'customerInfo': {
+                        'name': '',
+                        'phone': '',
+                        'email': '',
+                        'address': '',
+                        'issue_category': '',
+                        'issue_detail': '',
+                        'applianceType': 'Refrigerator',
+                        'preferredTime': ''
+                    },
+                    'phone_attempts': 0,
+                    'email_attempts': 0,
+                    'location_attempts': 0
+                }
             else:
                 response = f"❌ Invalid phone number. Please provide a valid South African number.\n\n"
                 response += f"Attempts remaining: {3 - state['phone_attempts']}\n\n"
@@ -175,8 +191,8 @@ def process_user_input(user_id, user_message):
         if validate_gmail(user_message):
             info['email'] = user_message
             state['step'] = STEPS['ISSUE_SELECT']
-            response = "✅ Email verified!\n"
-            response += "🔧 What issue are you experiencing with your refrigerator?\n"
+            response = "✅ Email verified!\n\n"
+            response += "🔧 What issue are you experiencing with your refrigerator?\n\n"
             for idx, issue in enumerate(FRIDGE_ISSUES, 1):
                 response += f"{idx}. {issue}\n"
             response += "\nReply with the number (1-10)"
@@ -187,7 +203,23 @@ def process_user_input(user_id, user_message):
                 response += "Please create a free Gmail account at:\n"
                 response += "www.gmail.com\n\n"
                 response += "Then restart the conversation with your Gmail address."
-                state['step'] = STEPS['EMAIL']
+                # Reset conversation on max attempts
+                conversation_states[user_id] = {
+                    'step': STEPS['PHONE_CHECK'],
+                    'customerInfo': {
+                        'name': '',
+                        'phone': '',
+                        'email': '',
+                        'address': '',
+                        'issue_category': '',
+                        'issue_detail': '',
+                        'applianceType': 'Refrigerator',
+                        'preferredTime': ''
+                    },
+                    'phone_attempts': 0,
+                    'email_attempts': 0,
+                    'location_attempts': 0
+                }
             else:
                 response = f"❌ Invalid email. Please use a Gmail address (example@gmail.com).\n\n"
                 response += f"Attempts remaining: {3 - state['email_attempts']}"
@@ -232,7 +264,23 @@ def process_user_input(user_id, user_message):
                 response += "📧 Email: support@fridgefix.co.za\n"
                 response += "📞 Phone: +27 (0)11 123 4567\n\n"
                 response += "We apologize for the inconvenience!"
-                state['step'] = STEPS['ADDRESS']
+                # Reset conversation on max attempts
+                conversation_states[user_id] = {
+                    'step': STEPS['PHONE_CHECK'],
+                    'customerInfo': {
+                        'name': '',
+                        'phone': '',
+                        'email': '',
+                        'address': '',
+                        'issue_category': '',
+                        'issue_detail': '',
+                        'applianceType': 'Refrigerator',
+                        'preferredTime': ''
+                    },
+                    'phone_attempts': 0,
+                    'email_attempts': 0,
+                    'location_attempts': 0
+                }
             else:
                 response = f"❌ Location not recognized. Please provide your full address with a South African province or city.\n\n"
                 response += "📍 Provinces: Gauteng, Western Cape, KwaZulu-Natal, Eastern Cape, Free State, Limpopo, Mpumalanga, Northern Cape, North West\n\n"

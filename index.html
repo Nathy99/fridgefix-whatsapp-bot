@@ -17,7 +17,7 @@
       line-height: 1.6;
     }
     .container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -31,11 +31,34 @@
     }
     header h1 {
       margin-bottom: 10px;
-      font-size: 1.8rem;
+      font-size: 2.2rem;
     }
     header p {
-      font-size: 1rem;
+      font-size: 1.1rem;
       opacity: 0.9;
+    }
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 90vh;
+    }
+    .main-content {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .chat-section {
+      flex: 2;
+    }
+    .info-section {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
     }
     .chat-container {
       background-color: white;
@@ -45,6 +68,17 @@
       height: 500px;
       display: flex;
       flex-direction: column;
+    }
+    .chat-header {
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: white;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .chat-header-icon {
+      font-size: 1.5rem;
     }
     .chat-messages {
       flex: 1;
@@ -63,14 +97,8 @@
       animation: fadeIn 0.3s ease;
     }
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .bot-message {
       align-self: flex-start;
@@ -136,39 +164,39 @@
       background: linear-gradient(135deg, #2980b9, #3498db);
       transform: scale(1.05);
     }
-    .hidden {
-      display: none;
-    }
-    .form-group {
+    .info-section h2 {
+      color: #2c3e50;
       margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #3498db;
     }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
+    .service-list {
+      list-style-type: none;
+      margin-bottom: 20px;
     }
-    .form-control {
-      width: 100%;
-      padding: 10px 15px;
-      border: 1px solid #ced4da;
-      border-radius: 5px;
-      font-size: 0.95rem;
+    .service-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .submit-btn {
-      background: linear-gradient(135deg, #2ecc71, #27ae60);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 12px 25px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      width: 100%;
+    .service-list li:before {
+      content: "✓";
+      color: #27ae60;
+      font-weight: bold;
     }
-    .submit-btn:hover {
-      background: linear-gradient(135deg, #27ae60, #2ecc71);
-      transform: translateY(-2px);
+    .contact-info {
+      margin-top: auto;
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .contact-info p {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .confirmation {
       background-color: #d4edda;
@@ -178,370 +206,146 @@
       border-radius: 5px;
       margin-top: 20px;
     }
-    @media (max-width: 600px) {
-      .container {
-        padding: 10px;
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 5px;
+      color: #856404;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #27ae60;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      border-top: 1px solid #eee;
+    }
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .chat-container {
+        height: 400px;
+      }
+      .info-section {
+        order: -1;
+        margin-bottom: 20px;
+      }
+      .mobile-menu-btn {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+      }
+      header h1 {
+        font-size: 1.8rem;
       }
       .message {
         max-width: 90%;
       }
+    }
+    @media (max-width: 480px) {
+      .container {
+        padding: 10px;
+      }
       .chat-container {
-        height: 450px;
+        height: 350px;
+      }
+      .input-container {
+        padding: 10px;
+      }
+      .send-btn {
+        padding: 0 15px;
       }
     }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>FridgeFix</h1>
-      <p>24/7 Appliance Repair Service</p>
-    </header>
-    <div class="chat-container">
-      <div class="chat-messages" id="chatMessages">
-        <!-- Messages will be added here dynamically -->
-      </div>
-      <div class="input-container">
-        <input type="text" class="user-input" id="userInput" placeholder="Type your message here...">
-        <button class="send-btn" id="sendBtn">Send</button>
+    <div class="app-container">
+      <header>
+        <h1><i class="fas fa-refrigerator"></i> FridgeFix</h1>
+        <p>24/7 Appliance Repair Service</p>
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+      </header>
+      <div class="main-content">
+        <div class="info-section" id="infoSection">
+          <h2><i class="fas fa-tools"></i> Our Services</h2>
+          <ul class="service-list">
+            <li>Refrigerator Repair & Maintenance</li>
+            <li>Freezer Troubleshooting</li>
+            <li>Ice Maker Installation & Repair</li>
+            <li>Cooling System Diagnostics</li>
+            <li>Emergency Repair Services</li>
+            <li>Warranty Service Claims</li>
+          </ul>
+          <h2><i class="fas fa-star"></i> Why Choose Us</h2>
+          <ul class="service-list">
+            <li>Certified Technicians</li>
+            <li>Same-Day Service</li>
+            <li>90-Day Warranty on Repairs</li>
+            <li>Transparent Pricing</li>
+            <li>24/7 Customer Support</li>
+          </ul>
+          <div class="contact-info">
+            <h2><i class="fas fa-phone-alt"></i> Contact Info</h2>
+            <p><i class="fas fa-clock"></i> Open 24/7</p>
+            <p><i class="fas fa-phone"></i> +27 (0)11 123 4567</p>
+            <p><i class="fas fa-envelope"></i> support@fridgefix.co.za</p>
+            <p><i class="fas fa-map-marker-alt"></i> Serving All Major Cities in SA</p>
+          </div>
+        </div>
+        <div class="chat-section">
+          <div class="chat-container">
+            <div class="chat-header">
+              <div class="chat-header-icon"><i class="fas fa-robot"></i></div>
+              <div>
+                <h3>FridgeFix Assistant</h3>
+                <p>Online • Ready to help</p>
+              </div>
+              <div class="status-indicator" style="margin-left: auto; font-size: 0.8rem;">
+                <div class="status-dot"></div>
+                <span>Live Agent</span>
+              </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <!-- Messages will be added here dynamically -->
+            </div>
+            <div class="input-container">
+              <input type="text" class="user-input" id="userInput" placeholder="Type your message here...">
+              <button class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i> Send</button>
+            </div>
+          </div>
+          <div class="footer">
+            <p>© 2024 FridgeFix. All rights reserved. | <i class="fas fa-shield-alt"></i> Your information is secure and encrypted</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const chatMessages = document.getElementById('chatMessages');
-      const userInput = document.getElementById('userInput');
-      const sendBtn = document.getElementById('sendBtn');
-
-      // Fridge issues list
-      const FRIDGE_ISSUES = [
-        'Not cooling properly',
-        'Freezer not working',
-        'Leaking water',
-        'Strange noises',
-        'Ice buildup',
-        'Door seal damaged',
-        'Compressor issues',
-        'Thermostat problems',
-        'Electrical issues',
-        'Other issue'
-      ];
-
-      // Conversation state
-      let conversationState = {
-        step: -1, // Start with phone check
-        customerInfo: {
-          name: '',
-          phone: '',
-          email: '',
-          address: '',
-          issue_category: '',
-          issue_detail: '',
-          applianceType: 'Refrigerator',
-          preferredTime: ''
-        },
-        phone_attempts: 0,
-        email_attempts: 0,
-        location_attempts: 0
-      };
-
-      // Initial bot message
-      addBotMessage("🔧 Welcome to FridgeFix!\n\nPlease provide your phone number to get started:");
-
-      // Send message on button click
-      sendBtn.addEventListener('click', handleUserInput);
-
-      // Send message on Enter key
-      userInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          handleUserInput();
-        }
-      });
-
-      function handleUserInput() {
-        const message = userInput.value.trim();
-        if (message) {
-          addUserMessage(message);
-          userInput.value = '';
-          // Process user input based on current conversation step
-          processUserInput(message);
-        }
-      }
-
-      function addBotMessage(text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', 'bot-message');
-        messageDiv.textContent = text;
-        chatMessages.appendChild(messageDiv);
-        scrollToBottom();
-      }
-
-      function addUserMessage(text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', 'user-message');
-        messageDiv.textContent = text;
-        chatMessages.appendChild(messageDiv);
-        scrollToBottom();
-      }
-
-      function scrollToBottom() {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }
-
-      function validateSAPhone(phone) {
-        // Remove spaces, dashes, parentheses and other special characters
-        let phoneClean = phone.replace(/[\s\-\(\)\.]+/g, '');
-        
-        // If starts with +27, remove the +
-        if (phoneClean.startsWith('+27')) {
-          phoneClean = phoneClean.substring(1);
-        }
-        
-        // If starts with 0, replace with 27
-        if (phoneClean.startsWith('0')) {
-          phoneClean = '27' + phoneClean.substring(1);
-        }
-        
-        // Check if it's valid SA number (27 + 9 digits = 11 total)
-        return phoneClean.startsWith('27') && phoneClean.length === 11 && /^\d+$/.test(phoneClean);
-      }
-
-      function validateGmail(email) {
-        const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-        return gmailPattern.test(email);
-      }
-
-      function checkGreeting(input) {
-        const greetings = ['hi', 'hello', 'hey', 'hiya', 'greetings', 'good morning', 'good afternoon', 'good evening'];
-        return greetings.includes(input.toLowerCase().trim());
-      }
-
-      function validateSALocation(address) {
-        const provinces = ['Eastern Cape', 'Free State', 'Gauteng', 'KwaZulu-Natal', 'Limpopo', 'Mpumalanga', 'Northern Cape', 'North West', 'Western Cape'];
-        const cities = [
-          'johannesburg', 'cape town', 'durban', 'pretoria', 'bloemfontein', 
-          'port elizabeth', 'east london', 'pietermaritzburg', 'polokwane', 'nelspruit',
-          'sandton', 'midrand', 'centurion', 'stellenbosch', 'paarl', 'bellville',
-          'soweto', 'randburg', 'roodepoort', 'boksburg', 'benoni', 'springs',
-          'witbank', 'secunda', 'rustenburg', 'potchefstroom', 'klerksdorp'
-        ];
-        const addressUpper = address.toUpperCase();
-        
-        for (let province of provinces) {
-          if (addressUpper.includes(province.toUpperCase())) return true;
-        }
-        for (let city of cities) {
-          if (addressUpper.includes(city.toUpperCase())) return true;
-        }
-        return false;
-      }
-
-      function processUserInput(input) {
-        // Check for greeting messages
-        if (checkGreeting(input)) {
-          setTimeout(() => {
-            addBotMessage("👋 Hello! I'm happy to help!\n\nPlease provide your South African phone number to get started:\n\nExample: +27 82 123 4567\nOr: 0821234567");
-          }, 1000);
-          return;
-        }
-
-        // Step -1: Phone validation
-        if (conversationState.step === -1) {
-          if (validateSAPhone(input)) {
-            conversationState.customerInfo.phone = input;
-            conversationState.step = 0;
-            setTimeout(() => {
-              addBotMessage(`✅ Great! Your South African number is verified.\n\nNow, could you please tell me your name?`);
-            }, 1000);
-          } else {
-            conversationState.phone_attempts++;
-            if (conversationState.phone_attempts >= 3) {
-              addBotMessage("❌ SERVICE NOT AVAILABLE\n\nFridgeFix currently operates only in South Africa.\n\n📍 We don't have technicians in your location.\n\n🌐 Please visit our website:\nwww.fridgefix.co.za\n\n📧 support@fridgefix.co.za\n📞 +27 (0)11 123 4567");
-            } else {
-              addBotMessage(`❌ Invalid phone number. Please provide a valid South African number.\n\nAttempts remaining: ${3 - conversationState.phone_attempts}\n\nAccepted formats:\n• +27 82 123 4567\n• 27821234567\n• 0821234567`);
-            }
-          }
-          return;
-        }
-
-        // Step 0: Get name
-        if (conversationState.step === 0) {
-          conversationState.customerInfo.name = input;
-          conversationState.step = 1;
-          setTimeout(() => {
-            addBotMessage(`Nice to meet you, ${input}! 👋\n\nPlease provide your Gmail email address (required for confirmation):`);
-          }, 1000);
-        }
-        // Step 1: Email validation
-        else if (conversationState.step === 1) {
-          if (validateGmail(input)) {
-            conversationState.customerInfo.email = input;
-            conversationState.step = 2;
-            setTimeout(() => {
-              let issueList = "✅ Email verified!\n";
-              issueList += "🔧 What issue are you experiencing with your refrigerator?\n";
-              issueList += FRIDGE_ISSUES.map((issue, idx) => `${idx + 1}. ${issue}`).join('\n');
-              issueList += "\n\nReply with the number (1-10)";
-              addBotMessage(issueList);
-            }, 1000);
-          } else {
-            conversationState.email_attempts++;
-            if (conversationState.email_attempts >= 3) {
-              addBotMessage("❌ We only accept Gmail addresses for service confirmation.\n\nPlease create a free Gmail account at:\nwww.gmail.com\n\nThen restart the conversation with your Gmail address.");
-            } else {
-              addBotMessage(`❌ Invalid email. Please use a Gmail address (example@gmail.com).\n\nAttempts remaining: ${3 - conversationState.email_attempts}`);
-            }
-          }
-        }
-        // Step 2: Issue selection
-        else if (conversationState.step === 2) {
-          try {
-            const issueIndex = parseInt(input) - 1;
-            if (issueIndex >= 0 && issueIndex < FRIDGE_ISSUES.length) {
-              conversationState.customerInfo.issue_category = FRIDGE_ISSUES[issueIndex];
-              conversationState.step = 2.5;
-              setTimeout(() => {
-                addBotMessage(`✅ Got it! You selected: ${FRIDGE_ISSUES[issueIndex]}\n\n📝 Please provide any additional details about the issue (or type 'none' if no additional details):`);
-              }, 1000);
-            } else {
-              addBotMessage("❌ Invalid option. Please reply with a number between 1-10.");
-            }
-          } catch (e) {
-            addBotMessage("❌ Invalid option. Please reply with a number between 1-10.");
-          }
-        }
-        // Step 2.5: Issue details
-        else if (conversationState.step === 2.5) {
-          if (input.toLowerCase() !== 'none') {
-            conversationState.customerInfo.issue_detail = input;
-          }
-          conversationState.step = 3;
-          setTimeout(() => {
-            addBotMessage("Thank you! 📝\n\nNow, please provide your full address including the province (e.g., 'Johannesburg, Gauteng' or 'Cape Town, Western Cape'):");
-          }, 1000);
-        }
-        // Step 3: Address validation
-        else if (conversationState.step === 3) {
-          if (validateSALocation(input)) {
-            conversationState.customerInfo.address = input;
-            conversationState.step = 4;
-            setTimeout(() => {
-              addBotMessage("✅ Location verified in South Africa!\n\n⏰ When would be a good time for our technician to visit?\n\nPlease select your preferred time:");
-              const optionsDiv = document.createElement('div');
-              optionsDiv.classList.add('options-container');
-              const times = ['Morning (9 AM - 12 PM)', 'Afternoon (12 PM - 4 PM)', 'Evening (4 PM - 7 PM)', 'ASAP'];
-              times.forEach(time => {
-                const btn = document.createElement('button');
-                btn.classList.add('option-btn');
-                btn.textContent = time;
-                btn.addEventListener('click', function() {
-                  conversationState.customerInfo.preferredTime = time;
-                  addUserMessage(time);
-                  processUserInput(time);
-                });
-                optionsDiv.appendChild(btn);
-              });
-              chatMessages.appendChild(optionsDiv);
-              scrollToBottom();
-            }, 1000);
-          } else {
-            conversationState.location_attempts++;
-            if (conversationState.location_attempts >= 3) {
-              addBotMessage("❌ SERVICE NOT AVAILABLE IN YOUR LOCATION\n\nFridgeFix currently operates only within South Africa.\n\n📍 We don't have technicians in your area.\n\n🌐 For service availability:\nwww.fridgefix.co.za\n\n📧 support@fridgefix.co.za\n📞 +27 (0)11 123 4567");
-            } else {
-              addBotMessage(`❌ Location not recognized. Please provide your full address with a South African province or city.\n\n📍 Provinces: Gauteng, Western Cape, KwaZulu-Natal, Eastern Cape, Free State, Limpopo, Mpumalanga, Northern Cape, North West\n\nExample: 'Johannesburg, Gauteng' or 'Cape Town, Western Cape'\n\nAttempts remaining: ${3 - conversationState.location_attempts}`);
-            }
-          }
-        }
-        // Step 4: Get preferred time and show confirmation
-        else if (conversationState.step === 4) {
-          conversationState.customerInfo.preferredTime = input;
-          conversationState.step = 5;
-          setTimeout(() => {
-            addBotMessage("✅ Thank you! Here's a summary of your service request:");
-            const confirmationDiv = document.createElement('div');
-            confirmationDiv.classList.add('confirmation');
-            const info = conversationState.customerInfo;
-            let confirmationHTML = `<p><strong>👤 Name:</strong> ${info.name}</p>`;
-            confirmationHTML += `<p><strong>📱 Phone:</strong> ${info.phone}</p>`;
-            confirmationHTML += `<p><strong>📧 Email:</strong> ${info.email}</p>`;
-            confirmationHTML += `<p><strong>📍 Address:</strong> ${info.address}</p>`;
-            confirmationHTML += `<p><strong>🔧 Issue Category:</strong> ${info.issue_category}</p>`;
-            if (info.issue_detail) {
-              confirmationHTML += `<p><strong>📝 Issue Details:</strong> ${info.issue_detail}</p>`;
-            }
-            confirmationHTML += `<p><strong>⏰ Preferred Time:</strong> ${info.preferredTime}</p>`;
-            confirmationHTML += `<p><strong>Status:</strong> Service request submitted successfully!</p>`;
-            confirmationDiv.innerHTML = confirmationHTML;
-            chatMessages.appendChild(confirmationDiv);
-            setTimeout(() => {
-              addBotMessage("Our technician will contact you within 30 minutes to confirm the appointment.\n\nThank you for choosing FridgeFix! 🙏");
-              setTimeout(() => {
-                addBotMessage("🙏 Thank you for contacting FridgeFix!\n\nWe will follow up with you shortly.\n\n📧 Check your email for confirmation details.\n📱 Our technician will call you to confirm the appointment.\n\nType 'new' or 'yes' to submit another request, or just say goodbye to exit.");
-              }, 1500);
-            }, 1500);
-          }, 1000);
-        }
-        // Step 5: Completion - offer to start new request or exit
-        else if (conversationState.step === 5) {
-          if (input.toLowerCase() === 'yes' || input.toLowerCase() === 'y' || input.toLowerCase() === 'new' || input.toLowerCase() === 'another') {
-            // Reset conversation
-            conversationState = {
-              step: -1,
-              customerInfo: {
-                name: '',
-                phone: '',
-                email: '',
-                address: '',
-                issue_category: '',
-                issue_detail: '',
-                applianceType: 'Refrigerator',
-                preferredTime: ''
-              },
-              phone_attempts: 0,
-              email_attempts: 0,
-              location_attempts: 0
-            };
-            setTimeout(() => {
-              addBotMessage("🔧 Welcome back to FridgeFix!\n\nPlease provide your phone number to get started:");
-            }, 1000);
-          } else {
-            conversationState.step = 6;
-            setTimeout(() => {
-              addBotMessage("🙏 Thank you for using FridgeFix!\n\nWe will be in touch soon. Goodbye! 👋");
-            }, 1000);
-          }
-        }
-        // Step 6: Final exit
-        else if (conversationState.step === 6) {
-          if (input.toLowerCase() === 'yes' || input.toLowerCase() === 'y' || input.toLowerCase() === 'new' || input.toLowerCase() === 'another') {
-            // Reset conversation
-            conversationState = {
-              step: -1,
-              customerInfo: {
-                name: '',
-                phone: '',
-                email: '',
-                address: '',
-                issue_category: '',
-                issue_detail: '',
-                applianceType: 'Refrigerator',
-                preferredTime: ''
-              },
-              phone_attempts: 0,
-              email_attempts: 0,
-              location_attempts: 0
-            };
-            setTimeout(() => {
-              addBotMessage("🔧 Welcome back to FridgeFix!\n\nPlease provide your phone number to get started:");
-            }, 1000);
-          } else {
-            addBotMessage("Thank you for choosing FridgeFix. Have a great day! 👋");
-          }
-        }
-      }
-    });
-  </script>
-</body>
-</html>
